@@ -64,5 +64,5 @@ setup_wipter() {
 
 echo "Starting Wipter ..."
 /opt/Wipter/wipter-app &
-
+sleep 5
 setup_wipter
