@@ -1,7 +1,7 @@
 #!/bin/bash
 set -m
 
-MASKED_PASSWORD=$(printf '***%.0s' $(seq ${#WIPTER_PASSWORD}
+MASKED_PASSWORD=$(printf '***%.0s' $(seq ${#WIPTER_PASSWORD})
 
 echo " "
 echo "=== === === === === === === ==="
