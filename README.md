@@ -31,7 +31,9 @@ docker run -d --name docker-wipter \
 ## Promo
 <ul><li><a href="https://wipter.com/register?via=66075F1E60"> [ REGISTER HERE ] </a></li></ul>
 <div align="center">
-  <img src="screenshot/img0.png" alt="Alt text">
+  <a href="https://wipter.com/register?via=66075F1E60">
+    <img src="screenshot/img0.png" alt="Alt text">
+  </a>
 </div>
 
 ## Screenshot
