@@ -25,8 +25,14 @@ docker run -d --name docker-wipter \
 ```
 
 ## Access
-- VNC Client: localhost:5901
-- Web Interface (noVNC): http://localhost:6080
+- VNC Client: localhost:5555
+- Web Interface (noVNC): http://localhost:6666
+
+## Promo
+<ul><li><a href="https://wipter.com/register?via=66075F1E60"> [ REGISTER HERE ] </a></li></ul>
+<div align="center">
+  <img src="screenshot/img0.png" alt="Alt text">
+</div>
 
 ## Screenshot
 <div align="center">
