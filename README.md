@@ -26,3 +26,6 @@ docker run -d --name docker-wipter \
 ## Access
 - VNC Client: localhost:5901
 - Web Interface (noVNC): http://localhost:6080
+
+## Screenshot
+![Alt text](screenshot/img1.png)
