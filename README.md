@@ -16,7 +16,7 @@ This repository provides a Dockerized solution for running Wipter, allowing user
 docker run -d --name docker-wipter \
   -e VNC_PASS="your_secure_password" \
   -e WIPTER_EMAIL="YourEmail@here.com" \
-  -e WIPTER_EMAIL="your_secure_password" \
+  -e WIPTER_PASSWORD="your_secure_password" \
   -p 5901:5901 -p 6080:6080 \
   --shm-size=2gb \
   ghcr.io/techroy23/docker-wipter:latest
