@@ -103,3 +103,10 @@ echo " "
 /opt/Wipter/wipter-app &
 sleep 5
 setup_wipter
+
+echo " "
+echo "### ### ###"
+echo " TCP DUMP "
+echo "### ### ###"
+tcpdump -l -i "$(ls /sys/class/net | grep -E '^eth[0-9]+|^ens')" -nn -q 'tcp and tcp[4:2] > 0 or udp and udp[4:2] > 0' &
+echo " "
