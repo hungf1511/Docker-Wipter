@@ -13,9 +13,11 @@ This repository provides a Dockerized solution for running Wipter. The setup use
 ```
 
 docker run -d --name docker-wipter \
-  -e VNC_PASS="your_secure_password" \
   -e WIPTER_EMAIL="YourEmail@here.com" \
   -e WIPTER_PASSWORD="your_secure_password" \
+  -e DISCORD_WEBHOOK_INTERVAL=300 \
+  -e DISCORD_WEBHOOK_URL="your_dicord_webhook_url" \
+  -e VNC_PASS="your_secure_password" \
   -e VNC_PORT=5555 \
   -e NOVNC_PORT=6666 \
   -p 5555:5555 -p 6666:6666 \
