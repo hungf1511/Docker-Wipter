@@ -104,24 +104,11 @@ echo " "
 sleep 5
 setup_wipter
 
-# echo " "
-# echo "### ### ###"
-# echo " TCP DUMP "
-# echo "### ### ###"
-# tcpdump -l -i "$(ls /sys/class/net | grep -E '^eth[0-9]+|^ens')" -nn -q 'tcp and tcp[4:2] > 0 or udp and udp[4:2] > 0' &
-# tshark -i eth0 -Y "not ssh and frame.len > 1000" -T fields -e ip.src -e ip.dst -e frame.len &
-# echo " "
-
 discord_loop() {
     DISCORD_WEBHOOK_INTERVAL=${DISCORD_WEBHOOK_INTERVAL:-300}
     local SCREENSHOT_PATH="/tmp/screenshot.png"
     local DISCORD_WEBHOOK_URL="$DISCORD_WEBHOOK_URL"
     local HOSTNAME="$HOSTNAME"
-
-    if [[ -z "$DISCORD_WEBHOOK_URL" || ! "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+$ ]]; then
-        echo "Invalid or missing Discord webhook URL. Exiting..."
-        return
-    fi
 
     while true; do
         scrot -o -D "$DISPLAY" "$SCREENSHOT_PATH"
@@ -132,4 +119,8 @@ discord_loop() {
     done
 }
 
-discord_loop &
+if [[ -n "$DISCORD_WEBHOOK_URL" && "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+$ ]]; then
+    discord_loop &
+else
+    echo "Discord webhook is not configured correctly; skipping Discord loop."
+fi
