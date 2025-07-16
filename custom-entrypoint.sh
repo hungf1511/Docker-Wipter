@@ -13,6 +13,7 @@ eval "$(dbus-launch --sh-syntax)"
 echo "$WIPTER_PASSWORD" | gnome-keyring-daemon --unlock --replace
 
 setup_wipter() {
+  sleep 5
   FLAG_FILE="/root/.config/wipter.setup_done"
 
   if [ -f "$FLAG_FILE" ]; then
@@ -46,7 +47,7 @@ setup_wipter() {
       WIPTER_WIN=$(echo "$WIPTER_INFO" | head -n 1 | awk '{print $1}')
       break
     fi
-    sleep 2
+    sleep 5
     attempts=$((attempts+1))
   done
 
@@ -62,27 +63,27 @@ setup_wipter() {
   wmctrl -ia "$WIPTER_WIN"
   sleep 5
   xte "key Tab"
-  sleep 3
+  sleep 5
   xte "key Tab"
-  sleep 3
+  sleep 5
   xte "key Tab"
-  sleep 3
+  sleep 5
   echo " "
   echo "=== === === === === === === === === === === === ==="
   echo "Typing EMAIL = $WIPTER_EMAIL"
   echo "=== === === === === === === === === === === === ==="
   echo " "
   xte "str $WIPTER_EMAIL"
-  sleep 3
+  sleep 5
   xte "key Tab"
-  sleep 3
+  sleep 5
   echo " "
   echo "=== === === === === === === === === === === === ==="
   echo "Typing PASSWORD = $MASKED_PASSWORD"
   echo "=== === === === === === === === === === === === ==="
   echo " "
   xte "str $WIPTER_PASSWORD"
-  sleep 3
+  sleep 5
   xte "key Return"
 
   echo " "
@@ -91,7 +92,7 @@ setup_wipter() {
   echo "=== === === === === === === === === === === === ==="
   echo " "
   mkdir -p "$(dirname "$FLAG_FILE")"
-  touch "$FLAG_FILE"
+  # touch "$FLAG_FILE"
   return 0
 }
 
@@ -100,8 +101,8 @@ echo "=== === === === ==="
 echo "Starting Wipter ..."
 echo "=== === === === ==="
 echo " "
+
 /opt/Wipter/wipter-app &
-sleep 5
 setup_wipter
 
 discord_loop() {
