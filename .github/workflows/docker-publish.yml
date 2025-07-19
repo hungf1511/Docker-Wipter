@@ -25,27 +25,3 @@ jobs:
         run: |
           docker buildx build --platform linux/amd64 \
           -t ghcr.io/${{ github.actor }}/docker-wipter:latest --push .
-
-      - name: Notify Success on Discord
-        if: success()
-        run: |
-          TIMESTAMP=$(TZ=Asia/Manila date +"%Y-%m-%d %H:%M:%S %Z %z")
-          JSON_PAYLOAD=$(jq -n --arg title "✅ Build Done" \
-            --arg repo "**📦 Repository:** ${{ github.repository }}" \
-            --arg branch "**🌱 Branch:** ${{ github.ref }}" \
-            --arg time "**🕒 Completed at:** ${TIMESTAMP}" \
-            '{ "embeds": [{ "title": $title, "description": ($repo + "\n" + $branch + "\n" + $time) }] }')
-          
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD"
-
-      - name: Notify Failure on Discord
-        if: failure()
-        run: |
-          TIMESTAMP=$(TZ=Asia/Manila date +"%Y-%m-%d %H:%M:%S %Z %z")
-          JSON_PAYLOAD=$(jq -n --arg title "❌ Build Error" \
-            --arg repo "**📦 Repository:** ${{ github.repository }}" \
-            --arg branch "**🌱 Branch:** ${{ github.ref }}" \
-            --arg time "**🕒 Failed at:** ${TIMESTAMP}" \
-            '{ "embeds": [{ "title": $title, "description": ($repo + "\n" + $branch + "\n" + $time) }] }')
-          
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD"
