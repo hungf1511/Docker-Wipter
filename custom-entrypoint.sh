@@ -13,7 +13,7 @@ eval "$(dbus-launch --sh-syntax)"
 echo "$WIPTER_PASSWORD" | gnome-keyring-daemon --unlock --replace
 
 setup_wipter() {
-  sleep 5
+  sleep 10
   FLAG_FILE="/root/.config/wipter.setup_done"
 
   if [ -f "$FLAG_FILE" ]; then
@@ -47,7 +47,7 @@ setup_wipter() {
       WIPTER_WIN=$(echo "$WIPTER_INFO" | head -n 1 | awk '{print $1}')
       break
     fi
-    sleep 5
+    sleep 10
     attempts=$((attempts+1))
   done
 
@@ -61,7 +61,7 @@ setup_wipter() {
   fi
 
   wmctrl -ia "$WIPTER_WIN"
-  sleep 5
+  sleep 10
   xte "key Tab"
   sleep 5
   xte "key Tab"
