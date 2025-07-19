@@ -37,5 +37,5 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/hungf1511/wipter:latest
+          tags: ghcr.io/hungf1511/wipter-docker:latest
           no-cache: true
