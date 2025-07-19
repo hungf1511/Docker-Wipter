@@ -85,7 +85,7 @@ setup_wipter() {
   xte "str $WIPTER_PASSWORD"
   sleep 5
   xte "key Return"
-  sleep 10
+  sleep 20
   
 
   echo " "
