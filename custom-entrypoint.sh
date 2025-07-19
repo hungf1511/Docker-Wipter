@@ -85,6 +85,8 @@ setup_wipter() {
   xte "str $WIPTER_PASSWORD"
   sleep 5
   xte "key Return"
+  sleep 10
+  wmctrl -ic "$WIPTER_WIN"
 
   echo " "
   echo "=== === === === === === === === === === === === ==="
