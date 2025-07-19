@@ -86,7 +86,7 @@ setup_wipter() {
   sleep 5
   xte "key Return"
   sleep 10
-  wmctrl -ic "$WIPTER_WIN"
+  
 
   echo " "
   echo "=== === === === === === === === === === === === ==="
@@ -107,23 +107,19 @@ echo " "
 /opt/Wipter/wipter-app &
 setup_wipter
 
-discord_loop() {
-    DISCORD_WEBHOOK_INTERVAL=${DISCORD_WEBHOOK_INTERVAL:-300}
-    local SCREENSHOT_PATH="/tmp/screenshot.png"
-    local DISCORD_WEBHOOK_URL="$DISCORD_WEBHOOK_URL"
-    local HOSTNAME="$HOSTNAME"
+ if [[ -n "$DISCORD_WEBHOOK_URL" && "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+$ ]]; then
+      SCREENSHOT_PATH="/tmp/wipter_login.png"
+      HOSTNAME="$(hostname)"
+      command -v scrot >/dev/null && scrot -o -D "$DISPLAY" "$SCREENSHOT_PATH"
+      curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK_URL" \
+          -F "file=@$SCREENSHOT_PATH" \
+          -F "payload_json={\"embeds\": [{\"title\": \"Wipter login on host: $HOSTNAME\", \"color\": 5814783}]}"
+  else
+      echo "Discord webhook is not configured correctly; skipping screenshot."
+  fi
 
-    while true; do
-        scrot -o -D "$DISPLAY" "$SCREENSHOT_PATH"
-        curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK_URL" \
-            -F "file=@$SCREENSHOT_PATH" \
-            -F "payload_json={\"embeds\": [{\"title\": \"Docker Hostname: $HOSTNAME\", \"color\": 5814783}]}"
-        sleep "$DISCORD_WEBHOOK_INTERVAL"
-    done
-}
-
-if [[ -n "$DISCORD_WEBHOOK_URL" && "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+$ ]]; then
-    discord_loop &
-else
-    echo "Discord webhook is not configured correctly; skipping Discord loop."
-fi
+  mkdir -p "$(dirname "$FLAG_FILE")"
+  # touch "$FLAG_FILE"
+  return 0
+wmctrl -ic "$WIPTER_WIN"
+  
