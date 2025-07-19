@@ -15,17 +15,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Notify Start on Discord
-        run: |
-          TIMESTAMP=$(TZ=Asia/Manila date +"%Y-%m-%d %H:%M:%S %Z %z")
-          JSON_PAYLOAD=$(jq -n --arg title "🛠️ Build Started" \
-            --arg repo "**📦 Repository:** ${{ github.repository }}" \
-            --arg branch "**🌱 Branch:** ${{ github.ref }}" \
-            --arg time "**🕒 Triggered at:** ${TIMESTAMP}" \
-            '{ "embeds": [{ "title": $title, "description": ($repo + "\n" + $branch + "\n" + $time) }] }')
-          
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD"
-
       - name: Log in to GHCR
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
