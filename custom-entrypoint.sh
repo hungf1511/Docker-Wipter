@@ -33,10 +33,11 @@ setup_wipter() {
     echo " "
     return 0
   fi
+
   echo " "
-  echo "=== === === === === === === === === === === ==="
+  echo "=== === === === === === === === === === ==="
   echo "Found necessary login details. Trying now ..."
-  echo "=== === === === === === === === === === === ==="
+  echo "=== === === === === === === === === === ==="
   echo " "
   
   local WIPTER_WIN=""
@@ -68,6 +69,7 @@ setup_wipter() {
   sleep 5
   xte "key Tab"
   sleep 5
+
   echo " "
   echo "=== === === === === === === === === === === === ==="
   echo "Typing EMAIL = $WIPTER_EMAIL"
@@ -77,6 +79,7 @@ setup_wipter() {
   sleep 5
   xte "key Tab"
   sleep 5
+
   echo " "
   echo "=== === === === === === === === === === === === ==="
   echo "Typing PASSWORD = $MASKED_PASSWORD"
@@ -86,8 +89,21 @@ setup_wipter() {
   sleep 5
   xte "key Return"
   sleep 20
+
+  # 📸 Chụp màn hình và gửi Discord trước khi tắt Wipter
+  if [[ -n "$DISCORD_WEBHOOK_URL" && "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+$ ]]; then
+      SCREENSHOT_PATH="/tmp/wipter_login.png"
+      HOSTNAME="$(hostname)"
+      command -v scrot >/dev/null && scrot -o -D "$DISPLAY" "$SCREENSHOT_PATH"
+      curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK_URL" \
+          -F "file=@$SCREENSHOT_PATH" \
+          -F "payload_json={\"embeds\": [{\"title\": \"Wipter login on host: $HOSTNAME\", \"color\": 5814783}]}"
+  else
+      echo "Discord webhook is not configured correctly; skipping screenshot."
+  fi
+
+  # 🔻 Sau khi gửi ảnh thì mới đóng cửa sổ Wipter
   wmctrl -ic "$WIPTER_WIN"
-  
 
   echo " "
   echo "=== === === === === === === === === === === === ==="
@@ -108,19 +124,5 @@ echo " "
 /opt/Wipter/wipter-app &
 setup_wipter
 
- if [[ -n "$DISCORD_WEBHOOK_URL" && "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+$ ]]; then
-      SCREENSHOT_PATH="/tmp/wipter_login.png"
-      HOSTNAME="$(hostname)"
-      command -v scrot >/dev/null && scrot -o -D "$DISPLAY" "$SCREENSHOT_PATH"
-      curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK_URL" \
-          -F "file=@$SCREENSHOT_PATH" \
-          -F "payload_json={\"embeds\": [{\"title\": \"Wipter login on host: $HOSTNAME\", \"color\": 5814783}]}"
-  else
-      echo "Discord webhook is not configured correctly; skipping screenshot."
-  fi
-
-  mkdir -p "$(dirname "$FLAG_FILE")"
-  # touch "$FLAG_FILE"
-  return 0
-
-  
+mkdir -p "/root/.config"
+# touch "/root/.config/wipter.setup_done"
