@@ -86,6 +86,7 @@ setup_wipter() {
   sleep 5
   xte "key Return"
   sleep 20
+  wmctrl -ic "$WIPTER_WIN"
   
 
   echo " "
@@ -121,5 +122,5 @@ setup_wipter
   mkdir -p "$(dirname "$FLAG_FILE")"
   # touch "$FLAG_FILE"
   return 0
-wmctrl -ic "$WIPTER_WIN"
+
   
