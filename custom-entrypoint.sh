@@ -66,7 +66,7 @@ setup_wipter() {
   xte "key Tab"; sleep 3
   echo "=== Typing PASSWORD: $MASKED_PASSWORD ==="
   xte "str $WIPTER_PASSWORD"; sleep 3
-  xte "key Return"; sleep 10
+  xte "key Return"; sleep 20
 
   # Chụp ảnh gửi Discord
   if [[ -n "$DISCORD_WEBHOOK_URL" && "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/ ]]; then
